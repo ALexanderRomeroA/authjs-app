@@ -20,7 +20,14 @@ declare module "@auth/core/jwt" {
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   callbacks:{
+    async signIn({user,account}) {
 
+      const existingUser = await getUserById(user.id as string);
+
+      if(!existingUser?.emailVerified) return false;
+
+      return true;
+    },
     
 
     async session({token,session}){

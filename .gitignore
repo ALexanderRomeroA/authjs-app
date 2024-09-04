@@ -28,6 +28,8 @@ yarn-error.log*
 # local env files
 .env*.local
 .envnpx
+.env
+./resend/resend_api.txt
 
 # vercel
 .vercel

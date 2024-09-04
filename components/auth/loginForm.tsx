@@ -49,7 +49,7 @@ export const LoginForm =()=>{
             Login(values)
             .then((data)=>{
                 setError(data?.error);
-                //setSucess(data?.success)
+                setSuccess(data?.success);
             })
         });
 
