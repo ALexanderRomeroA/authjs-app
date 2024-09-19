@@ -3,7 +3,7 @@
 import { CardWrapper } from "./CardWrapper";
 
 import * as z from "zod";
-import {LoginSchema} from "@/schemas"
+import {ResetSchema} from "@/schemas"
 
 import {useForm} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,13 +19,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
 import { FormError } from "../FormError";
 import { FormSucces } from "../FormSuccess";
-import { Login } from "@/actions/login";
+import { reset } from "@/actions/reset";
 
 import { useState, useTransition } from "react";
-import Link from "next/link";
 
 
-export const LoginForm =()=>{
+export const ResetForm =()=>{
 
     const [error, setError] =  useState<string | undefined>("");
     const [success, setSuccess] =  useState<string | undefined>("");
@@ -33,23 +32,21 @@ export const LoginForm =()=>{
 
     const [isPending, startTransition] = useTransition();
     
-    const form = useForm<z.infer<typeof LoginSchema>>({
-        resolver: zodResolver(LoginSchema),
+    const form = useForm<z.infer<typeof ResetSchema>>({
+        resolver: zodResolver(ResetSchema),
         defaultValues: {
             email:"",
-            password:""
         }
     });
 
-    const onSubmit = (values: z.infer<typeof LoginSchema>) =>{
+    const onSubmit = (values: z.infer<typeof ResetSchema>) =>{
 
         setError("");
         setSuccess("");
 
         startTransition(()=>{
-            Login(values)
+            reset(values)
             .then((data)=>{
-                setError(data?.error);
                 setSuccess(data?.success);
             })
         });
@@ -58,10 +55,9 @@ export const LoginForm =()=>{
 
     return(
         <CardWrapper
-        headerLabel="Welcome Back"
-        backButtonLabel="Dont have an account?"
-        backButoonHref="/auth/register"
-        showSocial
+        headerLabel="Olvidaste Tu conmtraseña?"
+        backButtonLabel="Ingresar"
+        backButoonHref="/auth/login"
         >
             <Form {...form}>
                 <form
@@ -87,38 +83,9 @@ export const LoginForm =()=>{
                                 </FormItem>
                              )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="password"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormLabel>Password</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                        {...field}
-                                        disabled={isPending}
-                                        placeholder="123456"
-                                        type="password"
-                                        />
-                                    </FormControl>
-                                    <Button
-                                        size="sm"
-                                        variant={"link"}
-                                        asChild
-                                        className="px-0 font-normal"
-
-                                    >
-                                        <Link href="/auth/reset">
-                                        Olvidaste la contraseña?
-                                        </Link>
-                                    </Button>
-                                    <FormMessage/>
-                                </FormItem>
-                             )}
-                        />
+                        
                     </div>
                     
-                    <FormError message={error}/>
                     <FormSucces message={success} />
 
                     <Button 
@@ -126,7 +93,7 @@ export const LoginForm =()=>{
                         type="submit"
                         className="w-full"
                     >
-                        Login
+                        Restablecer Contraseña
                     </Button>
 
                 </form>
