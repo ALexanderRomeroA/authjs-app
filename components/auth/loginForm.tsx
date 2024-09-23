@@ -49,6 +49,7 @@ export const LoginForm =()=>{
         startTransition(()=>{
             Login(values)
             .then((data)=>{
+                window.location.reload();
                 setError(data?.error);
                 setSuccess(data?.success);
             })
