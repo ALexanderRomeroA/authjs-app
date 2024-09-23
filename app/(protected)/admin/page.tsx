@@ -6,8 +6,20 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useCurrentRole } from "@/hooks/use-current-role";
 import { UserRole } from "@prisma/client";
+import { toast } from "sonner";
 
 const AdminPage = () =>{
+
+    const onApiRouterClick = () =>{
+        fetch("/api/admin")
+        .then((response) =>{
+            if(response.ok){
+                toast.success("Allowed Api Route")
+            }else{
+                toast.error("FORBIDDEN API");
+            }
+        })
+    }
 
     const role = useCurrentRole();
 
@@ -26,7 +38,7 @@ const AdminPage = () =>{
                     <p className="text-sm font-medium">
                         Admin-only API ROUTE
                     </p>
-                    <Button>
+                    <Button onClick={onApiRouterClick}>
                         Click to test
                     </Button>
                 </div>
